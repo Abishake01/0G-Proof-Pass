@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { useAccount } from 'wagmi';
 import PhotoUpload from '../components/event/PhotoUpload';
 import FeedbackForm from '../components/event/FeedbackForm';
-import { apiService } from '../services/api';
+import BadgeUpgrade from '../components/nft/BadgeUpgrade';
+import ClaimRewards from '../components/rewards/ClaimRewards';
+import { computeService } from '../services/compute';
 import { ContributionAnalysis } from '../types';
 
 export default function Contribute() {
@@ -37,22 +39,12 @@ export default function Contribute() {
     try {
       // Fetch feedback text from storage (for now, we'll pass the hash)
       // In production, you'd fetch the actual feedback text
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/compute/analyze`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          photos: [photoHash],
-          feedback: `Feedback hash: ${feedbackHash}`, // TODO: Fetch actual feedback text
-          eventId: parseInt(eventId),
-          walletAddress: address,
-        }),
+      const result = await computeService.analyzeContribution({
+        photos: [photoHash],
+        feedback: `Feedback hash: ${feedbackHash}`, // TODO: Fetch actual feedback text from storage
+        eventId: parseInt(eventId),
+        walletAddress: address,
       });
-
-      if (!response.ok) {
-        throw new Error('Analysis failed');
-      }
-
-      const result: ContributionAnalysis = await response.json();
       setAnalysis(result);
     } catch (err: any) {
       setError(err.message || 'Failed to analyze contribution');
@@ -105,42 +97,57 @@ export default function Contribute() {
         )}
 
         {analysis && (
-          <div className="glass-card p-6">
-            <h2 className="text-2xl font-semibold mb-4">Contribution Analysis</h2>
-            <div className="space-y-4">
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-bg-secondary rounded-lg">
-                  <div className="text-2xl font-bold text-accent-primary">{analysis.photoScore}</div>
-                  <div className="text-xs text-text-secondary mt-1">Photo Score</div>
+          <>
+            <div className="glass-card p-6">
+              <h2 className="text-2xl font-semibold mb-4">Contribution Analysis</h2>
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-bg-secondary rounded-lg">
+                    <div className="text-2xl font-bold text-accent-primary">{analysis.photoScore}</div>
+                    <div className="text-xs text-text-secondary mt-1">Photo Score</div>
+                  </div>
+                  <div className="text-center p-4 bg-bg-secondary rounded-lg">
+                    <div className="text-2xl font-bold text-accent-primary">{analysis.feedbackScore}</div>
+                    <div className="text-xs text-text-secondary mt-1">Feedback Score</div>
+                  </div>
+                  <div className="text-center p-4 bg-bg-secondary rounded-lg">
+                    <div className="text-2xl font-bold text-accent-primary">{analysis.overallScore}</div>
+                    <div className="text-xs text-text-secondary mt-1">Overall Score</div>
+                  </div>
                 </div>
-                <div className="text-center p-4 bg-bg-secondary rounded-lg">
-                  <div className="text-2xl font-bold text-accent-primary">{analysis.feedbackScore}</div>
-                  <div className="text-xs text-text-secondary mt-1">Feedback Score</div>
-                </div>
-                <div className="text-center p-4 bg-bg-secondary rounded-lg">
-                  <div className="text-2xl font-bold text-accent-primary">{analysis.overallScore}</div>
-                  <div className="text-xs text-text-secondary mt-1">Overall Score</div>
-                </div>
-              </div>
 
-              <div className="p-4 bg-bg-secondary rounded-lg">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium">Tier</span>
-                  <span className="text-lg font-bold text-accent-primary">{analysis.tier}</span>
+                <div className="p-4 bg-bg-secondary rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">Tier</span>
+                    <span className="text-lg font-bold text-accent-primary">{analysis.tier}</span>
+                  </div>
+                  <p className="text-sm text-text-secondary mt-2">{analysis.reasoning}</p>
                 </div>
-                <p className="text-sm text-text-secondary mt-2">{analysis.reasoning}</p>
-              </div>
 
-              {(analysis.isSpam || analysis.isDuplicate) && (
-                <div className="p-4 bg-error/20 border border-error rounded-lg">
-                  <p className="text-error text-sm">
-                    ⚠️ {analysis.isSpam && 'Spam detected. '}
-                    {analysis.isDuplicate && 'Duplicate submission detected.'}
-                  </p>
-                </div>
-              )}
+                {(analysis.isSpam || analysis.isDuplicate) && (
+                  <div className="p-4 bg-error/20 border border-error rounded-lg">
+                    <p className="text-error text-sm">
+                      ⚠️ {analysis.isSpam && 'Spam detected. '}
+                      {analysis.isDuplicate && 'Duplicate submission detected.'}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+
+            {/* Badge Upgrade and Rewards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <BadgeUpgrade
+                tokenId={0} // TODO: Get actual token ID from check-in
+                analysis={analysis}
+              />
+              <ClaimRewards
+                eventId={parseInt(eventId || '0')}
+                tier={analysis.tier === 'Champion' ? 2 : analysis.tier === 'Contributor' ? 1 : 0}
+                tokenId={0} // TODO: Get actual token ID
+              />
+            </div>
+          </>
         )}
       </div>
     </div>

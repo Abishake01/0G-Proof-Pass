@@ -58,9 +58,23 @@ export class ComputeService {
         ...(this.openRouterModel && { OPENROUTER_MODEL: this.openRouterModel }),
       };
 
-      // For now, return a mock response
-      // TODO: Integrate actual 0g-cc CLI call
-      // const result = await this.call0gCompute(prompt, env);
+      // Try to call 0G Compute or OpenRouter
+      let aiResponse = '';
+      try {
+        aiResponse = await this.call0gCompute(prompt, env);
+      } catch (error) {
+        console.warn('AI compute failed, using mock analysis:', error);
+      }
+
+      // Parse AI response if available, otherwise use mock
+      if (aiResponse) {
+        try {
+          const parsed = JSON.parse(aiResponse);
+          return this.validateAndFormatAnalysis(parsed, request);
+        } catch (parseError) {
+          console.warn('Failed to parse AI response, using mock:', parseError);
+        }
+      }
       
       return this.mockAnalysis(request);
     } catch (error) {
@@ -91,10 +105,92 @@ Return JSON with: photoScore, feedbackScore, overallScore, tier, reasoning, isSp
   }
 
   private async call0gCompute(prompt: string, env: NodeJS.ProcessEnv): Promise<string> {
-    // TODO: Implement actual 0g-cc integration
-    // This would call: npx @0gfoundation/0g-cc with the prompt
-    // For now, return empty string
-    return '';
+    try {
+      // Use 0g-cc via npx for inference
+      // The 0g-cc package provides MCP tools, but we can also call it programmatically
+      // For now, we'll use a more sophisticated mock that simulates AI analysis
+      // In production, integrate with 0g-cc MCP server or SDK
+      
+      // Option 1: Call via npx (if 0g-cc is installed)
+      // const { stdout } = await execAsync(
+      //   `npx @0gfoundation/0g-cc compute_inference "${prompt}"`,
+      //   { env }
+      // );
+      // return stdout;
+      
+      // Option 2: Use OpenRouter as fallback if configured
+      if (this.openRouterKey && this.openRouterModel) {
+        return await this.callOpenRouter(prompt);
+      }
+      
+      // For now, return empty to use mock
+      return '';
+    } catch (error) {
+      console.error('0G Compute call failed:', error);
+      throw error;
+    }
+  }
+
+  private async callOpenRouter(prompt: string): Promise<string> {
+    try {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.openRouterKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: this.openRouterModel,
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an AI analyst evaluating event contributions. Return only valid JSON.',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          response_format: { type: 'json_object' },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenRouter API error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0]?.message?.content || '';
+    } catch (error) {
+      console.error('OpenRouter call failed:', error);
+      throw error;
+    }
+  }
+
+  private validateAndFormatAnalysis(parsed: any, request: ComputeAnalysisRequest): ComputeAnalysisResponse {
+    // Validate and format AI response
+    const photoScore = Math.max(0, Math.min(100, parseInt(parsed.photoScore) || 0));
+    const feedbackScore = Math.max(0, Math.min(100, parseInt(parsed.feedbackScore) || 0));
+    const overallScore = Math.max(0, Math.min(100, parseInt(parsed.overallScore) || 0));
+    
+    let tier: 'Attendee' | 'Contributor' | 'Champion';
+    if (overallScore >= 67) {
+      tier = 'Champion';
+    } else if (overallScore >= 34) {
+      tier = 'Contributor';
+    } else {
+      tier = 'Attendee';
+    }
+
+    return {
+      photoScore,
+      feedbackScore,
+      overallScore,
+      tier,
+      reasoning: parsed.reasoning || 'AI analysis completed',
+      isSpam: parsed.isSpam === true || parsed.isSpam === 'true',
+      isDuplicate: parsed.isDuplicate === true || parsed.isDuplicate === 'true',
+    };
   }
 
   private mockAnalysis(request: ComputeAnalysisRequest): ComputeAnalysisResponse {
