@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
-import { Address, parseAbi, formatUnits } from 'viem';
+import type { Address } from 'viem';
+import { parseAbi, formatUnits } from 'viem';
 import { contractAddresses } from '../../config/chain';
 import { Trophy, Coins, Loader2, CheckCircle } from 'lucide-react';
 import { formatTier } from '../../utils/format';
@@ -121,28 +122,28 @@ export default function ClaimRewards({ eventId, tier, tokenId }: ClaimRewardsPro
   return (
     <div className="glass-card p-6">
       <div className="flex items-center gap-3 mb-4">
-        <Coins className="w-6 h-6 text-violet-500" />
+        <Coins className="w-6 h-6 text-accent-primary" />
         <h3 className="text-xl font-semibold">Claim Rewards</h3>
       </div>
 
       <div className="space-y-4">
-        <div className="p-4 bg-[#12141a] rounded-lg">
+        <div className="p-4 bg-bg-secondary rounded-lg">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-slate-400">Tier</span>
+            <span className="text-sm text-text-secondary">Tier</span>
             <span className={`font-bold ${getTierColor(tier)}`}>
               {formatTier(tier)}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">Reward Amount</span>
-            <span className="font-bold text-violet-500">
+            <span className="text-sm text-text-secondary">Reward Amount</span>
+            <span className="font-bold text-accent-primary">
               {rewardAmount} OG
             </span>
           </div>
           {balance && (
-            <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#2a2d35]">
-              <span className="text-sm text-slate-400">Your Balance</span>
-              <span className="font-medium text-slate-50">
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-border">
+              <span className="text-sm text-text-secondary">Your Balance</span>
+              <span className="font-medium text-text-primary">
                 {formatUnits(balance as bigint, 18)} OG
               </span>
             </div>

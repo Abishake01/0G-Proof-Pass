@@ -83,8 +83,8 @@ export default function PhotoUpload({ eventId, onUploadComplete }: PhotoUploadPr
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-2">Event Photos</label>
-        <p className="text-xs text-slate-400 mb-4">
+        <label className="block text-sm font-medium mb-2 text-text-primary">Event Photos</label>
+        <p className="text-xs text-text-secondary mb-4">
           Upload photos from the event to prove your attendance and participation.
         </p>
 
@@ -119,7 +119,7 @@ export default function PhotoUpload({ eventId, onUploadComplete }: PhotoUploadPr
                 <img
                   src={preview}
                   alt={`Preview ${index + 1}`}
-                  className="w-full h-32 object-cover rounded-lg border border-[#2a2d35]"
+                  className="w-full h-32 object-cover rounded-lg border border-border"
                 />
                 {!uploadedHashes[index] && (
                   <button
@@ -164,7 +164,7 @@ export default function PhotoUpload({ eventId, onUploadComplete }: PhotoUploadPr
             <p className="text-success text-sm font-medium">
               ✓ {uploadedHashes.length} photo(s) uploaded to 0G Storage
             </p>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-text-secondary mt-1">
               Storage Hash: {uploadedHashes[0].slice(0, 20)}...
             </p>
           </div>

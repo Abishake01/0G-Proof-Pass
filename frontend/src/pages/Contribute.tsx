@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import PhotoUpload from '../components/event/PhotoUpload';
 import FeedbackForm from '../components/event/FeedbackForm';
 import BadgeUpgrade from '../components/nft/BadgeUpgrade';
 import ClaimRewards from '../components/rewards/ClaimRewards';
 import { computeService } from '../services/compute';
-import { ContributionAnalysis } from '../types';
+import type { ContributionAnalysis } from '../types';
 
 export default function Contribute() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -29,6 +29,13 @@ export default function Contribute() {
       await analyzeContribution(photoHash, hash);
     }
   };
+
+  // Use feedbackHash in analysis (for future storage retrieval)
+  useEffect(() => {
+    if (feedbackHash && photoHash && address) {
+      // Can be used to fetch actual feedback text from storage
+    }
+  }, [feedbackHash, photoHash, address]);
 
   const analyzeContribution = async (photoHash: string, feedbackHash: string) => {
     if (!address || !eventId) return;
@@ -56,7 +63,7 @@ export default function Contribute() {
   if (!isConnected || !address) {
     return (
       <div className="text-center py-12">
-        <p className="text-slate-400 mb-4">Please connect your wallet to contribute</p>
+        <p className="text-text-secondary mb-4">Please connect your wallet to contribute</p>
       </div>
     );
   }
@@ -64,8 +71,8 @@ export default function Contribute() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Contribute to Event</h1>
-        <p className="text-slate-400">Upload photos and share feedback to earn contribution rewards</p>
+        <h1 className="text-4xl font-bold mb-2 gradient-text">Contribute to Event</h1>
+        <p className="text-text-secondary">Upload photos and share feedback to earn contribution rewards</p>
       </div>
 
       <div className="space-y-8">
@@ -85,8 +92,8 @@ export default function Contribute() {
 
         {analyzing && (
           <div className="glass-card p-6 text-center">
-            <div className="w-8 h-8 border-4 border-violet-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-slate-400">Analyzing your contribution with AI...</p>
+            <div className="w-8 h-8 border-4 border-accent-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-text-secondary">Analyzing your contribution with AI...</p>
           </div>
         )}
 
@@ -102,26 +109,26 @@ export default function Contribute() {
               <h2 className="text-2xl font-semibold mb-4">Contribution Analysis</h2>
               <div className="space-y-4">
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-[#12141a] rounded-lg">
-                    <div className="text-2xl font-bold text-violet-500">{analysis.photoScore}</div>
-                    <div className="text-xs text-slate-400 mt-1">Photo Score</div>
+                  <div className="text-center p-4 bg-bg-secondary rounded-lg">
+                    <div className="text-2xl font-bold text-accent-primary">{analysis.photoScore}</div>
+                    <div className="text-xs text-text-secondary mt-1">Photo Score</div>
                   </div>
-                  <div className="text-center p-4 bg-[#12141a] rounded-lg">
-                    <div className="text-2xl font-bold text-violet-500">{analysis.feedbackScore}</div>
-                    <div className="text-xs text-slate-400 mt-1">Feedback Score</div>
+                  <div className="text-center p-4 bg-bg-secondary rounded-lg">
+                    <div className="text-2xl font-bold text-accent-primary">{analysis.feedbackScore}</div>
+                    <div className="text-xs text-text-secondary mt-1">Feedback Score</div>
                   </div>
-                  <div className="text-center p-4 bg-[#12141a] rounded-lg">
-                    <div className="text-2xl font-bold text-violet-500">{analysis.overallScore}</div>
-                    <div className="text-xs text-slate-400 mt-1">Overall Score</div>
+                  <div className="text-center p-4 bg-bg-secondary rounded-lg">
+                    <div className="text-2xl font-bold text-accent-primary">{analysis.overallScore}</div>
+                    <div className="text-xs text-text-secondary mt-1">Overall Score</div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-[#12141a] rounded-lg">
+                <div className="p-4 bg-bg-secondary rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">Tier</span>
-                    <span className="text-lg font-bold text-violet-500">{analysis.tier}</span>
+                    <span className="text-sm font-medium text-text-primary">Tier</span>
+                    <span className="text-lg font-bold text-accent-primary">{analysis.tier}</span>
                   </div>
-                  <p className="text-sm text-slate-400 mt-2">{analysis.reasoning}</p>
+                  <p className="text-sm text-text-secondary mt-2">{analysis.reasoning}</p>
                 </div>
 
                 {(analysis.isSpam || analysis.isDuplicate) && (

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { Address, parseAbi } from 'viem';
+import type { Address } from 'viem';
+import { parseAbi } from 'viem';
 import { contractAddresses } from '../../config/chain';
-import { ContributionAnalysis, Tier } from '../../types';
+import type { ContributionAnalysis, Tier } from '../../types';
 import { Trophy, Loader2 } from 'lucide-react';
 
 interface BadgeUpgradeProps {
@@ -79,22 +80,22 @@ export default function BadgeUpgrade({ tokenId, analysis, onUpgradeComplete }: B
       </div>
 
       <div className="space-y-4">
-        <div className="p-4 bg-[#12141a] rounded-lg">
+        <div className="p-4 bg-bg-secondary rounded-lg">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-slate-400">Current Tier</span>
+            <span className="text-sm text-text-secondary">Current Tier</span>
             <span className={`font-bold ${getTierColor(analysis.tier)}`}>
               {analysis.tier}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-400">Contribution Score</span>
-            <span className="font-bold text-violet-500">{analysis.overallScore}/100</span>
+            <span className="text-sm text-text-secondary">Contribution Score</span>
+            <span className="font-bold text-accent-primary">{analysis.overallScore}/100</span>
           </div>
         </div>
 
         {analysis.tier !== 'Attendee' && (
-          <div className="p-4 bg-violet-600/10 border border-violet-500 rounded-lg">
-            <p className="text-sm text-slate-50">
+          <div className="p-4 bg-accent-primary/10 border border-accent-primary rounded-lg">
+            <p className="text-sm text-text-primary">
               Your contribution qualifies for <strong>{analysis.tier}</strong> tier!
               Upgrade your badge to reflect your achievement.
             </p>

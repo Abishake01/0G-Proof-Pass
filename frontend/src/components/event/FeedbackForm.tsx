@@ -52,8 +52,8 @@ export default function FeedbackForm({ eventId, onFeedbackComplete }: FeedbackFo
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-2">Event Feedback</label>
-        <p className="text-xs text-slate-400 mb-4">
+        <label className="block text-sm font-medium mb-2 text-text-primary">Event Feedback</label>
+        <p className="text-xs text-text-secondary mb-4">
           Share your thoughts about the event. This will be analyzed by AI to determine your contribution tier.
         </p>
 
@@ -64,7 +64,7 @@ export default function FeedbackForm({ eventId, onFeedbackComplete }: FeedbackFo
         )}
 
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">Rating</label>
+          <label className="block text-sm font-medium mb-2 text-text-primary">Rating</label>
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
@@ -73,8 +73,8 @@ export default function FeedbackForm({ eventId, onFeedbackComplete }: FeedbackFo
                 onClick={() => setRating(star)}
                 className={`p-2 rounded-lg transition-colors ${
                   rating >= star
-                    ? 'text-violet-500 bg-violet-600/20'
-                    : 'text-slate-400 bg-[#12141a] hover:bg-[#1a1d25]'
+                    ? 'text-accent-primary bg-accent-primary/20'
+                    : 'text-text-secondary bg-bg-secondary hover:bg-bg-card'
                 }`}
               >
                 <Star className={`w-5 h-5 ${rating >= star ? 'fill-current' : ''}`} />
@@ -88,11 +88,11 @@ export default function FeedbackForm({ eventId, onFeedbackComplete }: FeedbackFo
           onChange={(e) => setFeedback(e.target.value)}
           placeholder="Share your experience, insights, suggestions, or feedback about the event..."
           rows={6}
-          className="w-full px-4 py-3 bg-[#12141a] border border-[#2a2d35] rounded-lg text-slate-50 placeholder-text-secondary focus:outline-none focus:border-violet-500 resize-none"
+          className="w-full px-4 py-3 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent-primary resize-none"
           disabled={uploading || !!uploadedHash}
         />
 
-        <div className="mt-2 text-xs text-slate-400">
+        <div className="mt-2 text-xs text-text-secondary">
           {feedback.length} characters
         </div>
 
@@ -121,7 +121,7 @@ export default function FeedbackForm({ eventId, onFeedbackComplete }: FeedbackFo
             <p className="text-success text-sm font-medium">
               ✓ Feedback submitted to 0G Storage
             </p>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-text-secondary mt-1">
               Storage Hash: {uploadedHash.slice(0, 20)}...
             </p>
           </div>

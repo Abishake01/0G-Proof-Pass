@@ -1,6 +1,7 @@
-import { Address, createPublicClient, http, parseAbi } from 'viem';
+import type { Address } from 'viem';
+import { createPublicClient, http, parseAbi } from 'viem';
 import { ogChain, contractAddresses } from '../config/chain';
-import { Event, Badge, Tier } from '../types';
+import type { Event, Badge, Tier } from '../types';
 
 const publicClient = createPublicClient({
   chain: ogChain,

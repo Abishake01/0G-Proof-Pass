@@ -1,5 +1,5 @@
 import { useWriteContract, useWaitForTransactionReceipt, useAccount, useSignMessage as useWagmiSignMessage } from 'wagmi';
-import { Address, parseAbi } from 'viem';
+import { parseAbi, type Address } from 'viem';
 import { contractAddresses } from '../config/chain';
 
 // EventRegistry ABI

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
 import CheckInModal from '../components/event/CheckInModal';
@@ -21,24 +21,25 @@ export default function Event() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">{event.name}</h1>
-        <p className="text-slate-400">{event.location}</p>
+      <div className="mb-8 fade-in">
+        <h1 className="text-4xl font-bold mb-2 gradient-text">{event.name}</h1>
+        <p className="text-text-secondary">{event.location}</p>
       </div>
 
       <div className="glass-card p-6 mb-6">
-        <h2 className="text-2xl font-semibold mb-4">Event Details</h2>
-        <div className="space-y-3 text-slate-400">
+        <h2 className="text-2xl font-semibold mb-4 text-text-primary">Event Details</h2>
+        <div className="space-y-3 text-text-secondary">
           <div>
-            <span className="text-slate-50 font-medium">Start:</span>{' '}
+            <span className="text-text-primary font-medium">Start:</span>{' '}
             {new Date(event.startTime * 1000).toLocaleString()}
           </div>
           <div>
-            <span className="text-slate-50 font-medium">End:</span>{' '}
+            <span className="text-text-primary font-medium">End:</span>{' '}
             {new Date(event.endTime * 1000).toLocaleString()}
           </div>
           <div>
-            <span className="text-slate-50 font-medium">Organizer:</span> {event.organizer}
+            <span className="text-text-primary font-medium">Organizer:</span>{' '}
+            <span className="font-mono text-accent-primary">{event.organizer}</span>
           </div>
         </div>
       </div>
@@ -48,15 +49,15 @@ export default function Event() {
           <button onClick={() => setShowCheckIn(true)} className="btn-primary">
             Check In to Event
           </button>
-          <button className="btn-secondary">
+          <Link to={`/contribute/${event.id}`} className="btn-secondary no-underline">
             View Contributions
-          </button>
+          </Link>
         </div>
       )}
 
       {!isConnected && (
         <div className="glass-card p-6 text-center">
-          <p className="text-slate-400 mb-4">Connect your wallet to check in</p>
+          <p className="text-text-secondary mb-4">Connect your wallet to check in</p>
         </div>
       )}
 

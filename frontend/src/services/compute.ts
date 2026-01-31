@@ -1,4 +1,4 @@
-import { ContributionAnalysis } from '../types';
+import type { ContributionAnalysis } from '../types';
 import { backendUrl } from '../config/chain';
 
 export interface AnalyzeContributionRequest {

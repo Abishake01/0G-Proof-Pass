@@ -1,4 +1,5 @@
-import Toast, { ToastType } from './Toast';
+import Toast from './Toast';
+import type { ToastType } from './Toast';
 
 interface ToastContainerProps {
   toasts: Array<{ id: string; message: string; type: ToastType }>;
