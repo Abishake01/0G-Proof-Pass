@@ -23,22 +23,22 @@ export default function Event() {
     <div>
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">{event.name}</h1>
-        <p className="text-text-secondary">{event.location}</p>
+        <p className="text-slate-400">{event.location}</p>
       </div>
 
       <div className="glass-card p-6 mb-6">
         <h2 className="text-2xl font-semibold mb-4">Event Details</h2>
-        <div className="space-y-3 text-text-secondary">
+        <div className="space-y-3 text-slate-400">
           <div>
-            <span className="text-text-primary font-medium">Start:</span>{' '}
+            <span className="text-slate-50 font-medium">Start:</span>{' '}
             {new Date(event.startTime * 1000).toLocaleString()}
           </div>
           <div>
-            <span className="text-text-primary font-medium">End:</span>{' '}
+            <span className="text-slate-50 font-medium">End:</span>{' '}
             {new Date(event.endTime * 1000).toLocaleString()}
           </div>
           <div>
-            <span className="text-text-primary font-medium">Organizer:</span> {event.organizer}
+            <span className="text-slate-50 font-medium">Organizer:</span> {event.organizer}
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function Event() {
 
       {!isConnected && (
         <div className="glass-card p-6 text-center">
-          <p className="text-text-secondary mb-4">Connect your wallet to check in</p>
+          <p className="text-slate-400 mb-4">Connect your wallet to check in</p>
         </div>
       )}
 

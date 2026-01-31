@@ -34,7 +34,7 @@ export default function ConnectWallet() {
         )}
         <Link
           to={`/profile/${address}`}
-          className="flex items-center gap-2 px-3 py-2 bg-bg-card rounded-lg border border-border hover:border-accent-primary transition-colors"
+          className="flex items-center gap-2 px-3 py-2 bg-[#1a1d25] rounded-lg border border-[#2a2d35] hover:border-violet-500 transition-colors"
         >
           <div className="w-2 h-2 bg-success rounded-full"></div>
           <span className="text-sm font-mono">{formatAddress(address)}</span>

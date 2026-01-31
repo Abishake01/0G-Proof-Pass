@@ -39,11 +39,11 @@ export default function DemoMode() {
   return (
     <div className="fixed bottom-4 right-4 z-40">
       <div className="glass-card p-3 flex items-center gap-3">
-        <Sparkles className="w-4 h-4 text-accent-primary animate-pulse" />
+        <Sparkles className="w-4 h-4 text-violet-500 animate-pulse" />
         <span className="text-sm font-medium">Demo Mode Active</span>
         <button
           onClick={toggleDemoMode}
-          className="text-xs text-text-secondary hover:text-text-primary transition-colors"
+          className="text-xs text-slate-400 hover:text-slate-50 transition-colors"
         >
           Disable
         </button>

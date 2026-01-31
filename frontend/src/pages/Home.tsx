@@ -38,7 +38,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="text-center py-12">
-        <div className="text-text-secondary">Loading events...</div>
+        <div className="text-slate-400">Loading events...</div>
       </div>
     );
   }
@@ -47,7 +47,7 @@ export default function Home() {
     <div>
       <div className="mb-8 fade-in">
         <h1 className="text-4xl font-bold mb-2 gradient-text">0G Events</h1>
-        <p className="text-text-secondary">Discover and check in to 0G network events</p>
+        <p className="text-slate-400">Discover and check in to 0G network events</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -59,7 +59,7 @@ export default function Home() {
             style={{ animationDelay: `${index * 0.1}s` }}
           >
             <h2 className="text-xl font-semibold mb-3">{event.name}</h2>
-            <div className="space-y-2 text-text-secondary text-sm">
+            <div className="space-y-2 text-slate-400 text-sm">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 <span>{new Date(event.startTime * 1000).toLocaleDateString()}</span>
@@ -74,8 +74,8 @@ export default function Home() {
               </div>
             </div>
             {address && (
-              <div className="mt-4 pt-4 border-t border-border">
-                <span className="text-accent-primary text-sm font-medium">Check In Available</span>
+              <div className="mt-4 pt-4 border-t border-[#2a2d35]">
+                <span className="text-violet-500 text-sm font-medium">Check In Available</span>
               </div>
             )}
           </Link>

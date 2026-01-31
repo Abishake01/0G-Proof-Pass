@@ -9,18 +9,18 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-bg-primary">
-      <header className="border-b border-border bg-bg-secondary/80 backdrop-blur-sm sticky top-0 z-30">
+    <div className="min-h-screen bg-[#0a0b0f]">
+      <header className="border-b border-[#2a2d35] bg-[#12141a]/80 backdrop-blur-sm sticky top-0 z-30">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold gradient-text hover:opacity-80 transition-opacity">
             <Wallet className="w-6 h-6" />
             <span>0G ProofPass</span>
           </Link>
           <nav className="flex items-center gap-6">
-            <Link to="/" className="text-text-secondary hover:text-text-primary transition-colors">
+            <Link to="/" className="text-slate-400 hover:text-slate-50 transition-colors">
               Events
             </Link>
-            <Link to="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors">
+            <Link to="/dashboard" className="text-slate-400 hover:text-slate-50 transition-colors">
               Dashboard
             </Link>
             <ConnectWallet />

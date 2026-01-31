@@ -125,7 +125,7 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
       <div className="glass-card p-6 max-w-md w-full mx-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Check In to Event</h2>
-          <button onClick={onClose} className="text-text-secondary hover:text-text-primary">
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-50">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -145,7 +145,7 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:outline-none focus:border-accent-primary"
+                className="w-full px-4 py-2 bg-[#12141a] border border-[#2a2d35] rounded-lg text-slate-50 focus:outline-none focus:border-violet-500"
               />
             </div>
             <button
@@ -168,9 +168,9 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                 placeholder="000000"
                 maxLength={6}
-                className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary text-center text-2xl tracking-widest focus:outline-none focus:border-accent-primary"
+                className="w-full px-4 py-2 bg-[#12141a] border border-[#2a2d35] rounded-lg text-slate-50 text-center text-2xl tracking-widest focus:outline-none focus:border-violet-500"
               />
-              <p className="text-xs text-text-secondary mt-2">
+              <p className="text-xs text-slate-400 mt-2">
                 Code sent to {email}
               </p>
             </div>
@@ -194,11 +194,11 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
 
         {step === 'sign' && (
           <div className="space-y-4">
-            <p className="text-text-secondary">
+            <p className="text-slate-400">
               Email verified! Now sign a message with your wallet to complete check-in.
             </p>
             {isPending || isConfirming ? (
-              <div className="flex items-center justify-center gap-2 text-accent-primary">
+              <div className="flex items-center justify-center gap-2 text-violet-500">
                 <Loader2 className="w-5 h-5 animate-spin" />
                 <span>{isPending ? 'Waiting for transaction...' : 'Confirming transaction...'}</span>
               </div>
@@ -218,7 +218,7 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
           <div className="text-center space-y-4">
             <div className="text-6xl mb-4">✅</div>
             <h3 className="text-xl font-semibold">Check-in Successful!</h3>
-            <p className="text-text-secondary">
+            <p className="text-slate-400">
               Your Proof of Attendance NFT has been minted.
             </p>
             <button onClick={onClose} className="btn-primary w-full">

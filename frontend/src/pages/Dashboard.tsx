@@ -131,7 +131,7 @@ export default function Dashboard() {
   if (!address) {
     return (
       <div className="text-center py-12">
-        <p className="text-text-secondary mb-4">Please connect your wallet to access the dashboard</p>
+        <p className="text-slate-400 mb-4">Please connect your wallet to access the dashboard</p>
       </div>
     );
   }
@@ -139,8 +139,8 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="text-center py-12">
-        <div className="w-8 h-8 border-4 border-accent-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-text-secondary">Loading dashboard...</p>
+        <div className="w-8 h-8 border-4 border-violet-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-slate-400">Loading dashboard...</p>
       </div>
     );
   }
@@ -148,9 +148,9 @@ export default function Dashboard() {
   if (events.length === 0) {
     return (
       <div className="text-center py-12">
-        <Calendar className="w-12 h-12 text-text-secondary mx-auto mb-4" />
+        <Calendar className="w-12 h-12 text-slate-400 mx-auto mb-4" />
         <h2 className="text-2xl font-semibold mb-2">No Events Found</h2>
-        <p className="text-text-secondary">
+        <p className="text-slate-400">
           You haven't created any events yet. Create an event to start managing attendees.
         </p>
       </div>
@@ -163,18 +163,18 @@ export default function Dashboard() {
     <div className="max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">Organizer Dashboard</h1>
-        <p className="text-text-secondary">Manage your events and view analytics</p>
+        <p className="text-slate-400">Manage your events and view analytics</p>
       </div>
 
       {/* Event Selector */}
       <div className="glass-card p-4 mb-6">
         <div className="flex items-center gap-4">
-          <Filter className="w-5 h-5 text-text-secondary" />
-          <span className="text-sm font-medium text-text-secondary">Select Event:</span>
+          <Filter className="w-5 h-5 text-slate-400" />
+          <span className="text-sm font-medium text-slate-400">Select Event:</span>
           <select
             value={selectedEvent || ''}
             onChange={(e) => setSelectedEvent(Number(e.target.value))}
-            className="flex-1 px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary focus:outline-none focus:border-accent-primary"
+            className="flex-1 px-4 py-2 bg-[#12141a] border border-[#2a2d35] rounded-lg text-slate-50 focus:outline-none focus:border-violet-500"
           >
             {events.map((event) => (
               <option key={event.id} value={event.id}>
@@ -191,35 +191,35 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-2">
-                <Users className="w-5 h-5 text-accent-primary" />
-                <span className="text-sm text-text-secondary">Total Attendees</span>
+                <Users className="w-5 h-5 text-violet-500" />
+                <span className="text-sm text-slate-400">Total Attendees</span>
               </div>
               <div className="text-3xl font-bold">{stats.totalAttendees}</div>
             </div>
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-2">
-                <Award className="w-5 h-5 text-accent-primary" />
-                <span className="text-sm text-text-secondary">Check-ins</span>
+                <Award className="w-5 h-5 text-violet-500" />
+                <span className="text-sm text-slate-400">Check-ins</span>
               </div>
               <div className="text-3xl font-bold">{stats.totalCheckIns}</div>
             </div>
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-2">
-                <TrendingUp className="w-5 h-5 text-accent-primary" />
-                <span className="text-sm text-text-secondary">Avg Score</span>
+                <TrendingUp className="w-5 h-5 text-violet-500" />
+                <span className="text-sm text-slate-400">Avg Score</span>
               </div>
               <div className="text-3xl font-bold">{stats.avgScore}</div>
             </div>
             <div className="glass-card p-6">
               <div className="flex items-center gap-3 mb-2">
-                <BarChart3 className="w-5 h-5 text-accent-primary" />
-                <span className="text-sm text-text-secondary">Event Status</span>
+                <BarChart3 className="w-5 h-5 text-violet-500" />
+                <span className="text-sm text-slate-400">Event Status</span>
               </div>
               <div className="text-lg font-bold">
                 {selectedEventData.active ? (
                   <span className="text-success">Active</span>
                 ) : (
-                  <span className="text-text-secondary">Ended</span>
+                  <span className="text-slate-400">Ended</span>
                 )}
               </div>
             </div>
@@ -248,7 +248,7 @@ export default function Dashboard() {
                       <span className="text-sm font-medium">{tier}</span>
                     </div>
                     <div className="flex items-center gap-4">
-                      <div className="w-32 h-2 bg-bg-secondary rounded-full overflow-hidden">
+                      <div className="w-32 h-2 bg-[#12141a] rounded-full overflow-hidden">
                         <div
                           className={`h-full ${
                             tier === 'Champion'
@@ -286,11 +286,11 @@ export default function Dashboard() {
                   .map((attendee, index) => (
                     <div
                       key={attendee.address}
-                      className="flex items-center justify-between p-3 bg-bg-secondary rounded-lg"
+                      className="flex items-center justify-between p-3 bg-[#12141a] rounded-lg"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-accent-primary/20 flex items-center justify-center">
-                          <span className="text-accent-primary font-bold text-sm">
+                        <div className="w-8 h-8 rounded-full bg-violet-600/20 flex items-center justify-center">
+                          <span className="text-violet-500 font-bold text-sm">
                             {index + 1}
                           </span>
                         </div>
@@ -298,20 +298,20 @@ export default function Dashboard() {
                           <div className="font-medium text-sm">
                             {formatAddress(attendee.address)}
                           </div>
-                          <div className="text-xs text-text-secondary">
+                          <div className="text-xs text-slate-400">
                             {formatTier(attendee.badge?.tier || 0)}
                           </div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-accent-primary">
+                        <div className="font-bold text-violet-500">
                           {attendee.badge?.score || 0}/100
                         </div>
                       </div>
                     </div>
                   ))}
                 {attendees.length === 0 && (
-                  <p className="text-text-secondary text-sm text-center py-4">
+                  <p className="text-slate-400 text-sm text-center py-4">
                     No contributors yet
                   </p>
                 )}
@@ -334,20 +334,20 @@ export default function Dashboard() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">
+                  <tr className="border-b border-[#2a2d35]">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-slate-400">
                       Wallet
                     </th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-slate-400">
                       Check-in Time
                     </th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-slate-400">
                       Tier
                     </th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-slate-400">
                       Score
                     </th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-text-secondary">
+                    <th className="text-left py-3 px-4 text-sm font-medium text-slate-400">
                       Actions
                     </th>
                   </tr>
@@ -356,17 +356,17 @@ export default function Dashboard() {
                   {attendees.map((attendee) => (
                     <tr
                       key={attendee.address}
-                      className="border-b border-border hover:bg-bg-secondary transition-colors"
+                      className="border-b border-[#2a2d35] hover:bg-[#12141a] transition-colors"
                     >
                       <td className="py-3 px-4">
                         <a
                           href={`/profile/${attendee.address}`}
-                          className="font-mono text-sm text-accent-primary hover:underline"
+                          className="font-mono text-sm text-violet-500 hover:underline"
                         >
                           {formatAddress(attendee.address)}
                         </a>
                       </td>
-                      <td className="py-3 px-4 text-sm text-text-secondary">
+                      <td className="py-3 px-4 text-sm text-slate-400">
                         {new Date(attendee.checkedInAt).toLocaleString()}
                       </td>
                       <td className="py-3 px-4">
@@ -388,7 +388,7 @@ export default function Dashboard() {
                       <td className="py-3 px-4">
                         <a
                           href={`/profile/${attendee.address}`}
-                          className="text-accent-primary text-sm hover:underline"
+                          className="text-violet-500 text-sm hover:underline"
                         >
                           View Profile
                         </a>
@@ -397,7 +397,7 @@ export default function Dashboard() {
                   ))}
                   {attendees.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="py-8 text-center text-text-secondary">
+                      <td colSpan={5} className="py-8 text-center text-slate-400">
                         No attendees yet
                       </td>
                     </tr>
@@ -419,21 +419,21 @@ export default function Dashboard() {
                 .map((attendee) => (
                   <div
                     key={attendee.address}
-                    className="p-4 bg-bg-secondary rounded-lg"
+                    className="p-4 bg-[#12141a] rounded-lg"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm font-medium">
                         {formatAddress(attendee.address)}
                       </span>
-                      <span className="text-xs text-text-secondary">
+                      <span className="text-xs text-slate-400">
                         {formatTier(attendee.badge?.tier || 0)}
                       </span>
                     </div>
-                    <p className="text-sm text-text-secondary">{attendee.feedback}</p>
+                    <p className="text-sm text-slate-400">{attendee.feedback}</p>
                   </div>
                 ))}
               {attendees.filter((a) => a.feedback).length === 0 && (
-                <p className="text-text-secondary text-sm text-center py-4">
+                <p className="text-slate-400 text-sm text-center py-4">
                   No feedback submitted yet
                 </p>
               )}

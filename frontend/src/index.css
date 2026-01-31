@@ -3,25 +3,16 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --bg-primary: #0a0b0f;
-    --bg-secondary: #12141a;
-    --bg-card: #1a1d25;
-    --accent-primary: #8b5cf6;
-    --accent-secondary: #06b6d4;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --border: #2a2d35;
-    --success: #22c55e;
-    --error: #ef4444;
-  }
-
   * {
-    @apply border-border;
+    border-color: #2a2d35;
   }
 
   body {
-    @apply bg-bg-primary text-text-primary font-sans antialiased;
+    background-color: #0a0b0f;
+    color: #f8fafc;
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     margin: 0;
     min-height: 100vh;
   }
@@ -29,42 +20,105 @@
 
 @layer components {
   .glass-card {
-    @apply bg-bg-card/80 backdrop-blur-sm border border-border rounded-lg transition-all duration-300;
-    @apply hover:border-accent-primary/50 hover:shadow-lg hover:shadow-accent-primary/10;
+    background-color: rgba(26, 29, 37, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid #2a2d35;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+  }
+  
+  .glass-card:hover {
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.1);
   }
   
   .btn-primary {
-    @apply bg-accent-primary hover:bg-accent-primary/90 text-white font-medium px-4 py-2 rounded-lg;
-    @apply transition-all duration-200 hover:scale-105 active:scale-95;
-    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
-    @apply shadow-lg shadow-accent-primary/20;
+    background-color: #8b5cf6;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.2);
+  }
+  
+  .btn-primary:hover {
+    background-color: rgba(139, 92, 246, 0.9);
+    transform: scale(1.05);
+  }
+  
+  .btn-primary:active {
+    transform: scale(0.95);
+  }
+  
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .btn-primary:disabled:hover {
+    transform: scale(1);
   }
   
   .btn-secondary {
-    @apply bg-bg-card hover:bg-bg-card/80 text-text-primary font-medium px-4 py-2 rounded-lg border border-border;
-    @apply transition-all duration-200 hover:border-accent-primary/50;
-    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    background-color: #1a1d25;
+    color: #f8fafc;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #2a2d35;
+    transition: all 0.2s;
+  }
+  
+  .btn-secondary:hover {
+    background-color: rgba(26, 29, 37, 0.8);
+    border-color: rgba(139, 92, 246, 0.5);
+  }
+  
+  .btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .badge-attendee {
-    @apply bg-amber-600/20 text-amber-600 border-amber-600/30;
+    background-color: rgba(217, 119, 6, 0.2);
+    color: #d97706;
+    border-color: rgba(217, 119, 6, 0.3);
   }
 
   .badge-contributor {
-    @apply bg-gray-300/20 text-gray-300 border-gray-300/30;
+    background-color: rgba(209, 213, 219, 0.2);
+    color: #d1d5db;
+    border-color: rgba(209, 213, 219, 0.3);
   }
 
   .badge-champion {
-    @apply bg-yellow-400/20 text-yellow-400 border-yellow-400/30;
-    @apply shadow-lg shadow-yellow-400/20;
+    background-color: rgba(250, 204, 21, 0.2);
+    color: #facc15;
+    border-color: rgba(250, 204, 21, 0.3);
+    box-shadow: 0 10px 15px -3px rgba(250, 204, 21, 0.2);
   }
 
   .skeleton {
-    @apply animate-pulse bg-bg-secondary rounded;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    background-color: #12141a;
+    border-radius: 0.25rem;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-accent-primary to-accent-secondary bg-clip-text text-transparent;
+    background: linear-gradient(to right, #8b5cf6, #06b6d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .fade-in {
