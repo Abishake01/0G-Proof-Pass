@@ -45,17 +45,18 @@ export default function Home() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">0G Events</h1>
+      <div className="mb-8 fade-in">
+        <h1 className="text-4xl font-bold mb-2 gradient-text">0G Events</h1>
         <p className="text-text-secondary">Discover and check in to 0G network events</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event) => (
+        {events.map((event, index) => (
           <Link
             key={event.id}
             to={`/event/${event.id}`}
-            className="glass-card p-6 hover:border-accent-primary transition-colors"
+            className="glass-card p-6 slide-up"
+            style={{ animationDelay: `${index * 0.1}s` }}
           >
             <h2 className="text-xl font-semibold mb-3">{event.name}</h2>
             <div className="space-y-2 text-text-secondary text-sm">

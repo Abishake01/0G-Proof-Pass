@@ -10,9 +10,9 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-bg-primary">
-      <header className="border-b border-border bg-bg-secondary">
+      <header className="border-b border-border bg-bg-secondary/80 backdrop-blur-sm sticky top-0 z-30">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold text-accent-primary">
+          <Link to="/" className="flex items-center gap-2 text-xl font-bold gradient-text hover:opacity-80 transition-opacity">
             <Wallet className="w-6 h-6" />
             <span>0G ProofPass</span>
           </Link>

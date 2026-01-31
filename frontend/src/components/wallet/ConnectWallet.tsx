@@ -1,5 +1,6 @@
 import { useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi';
 import { injected } from 'wagmi/connectors';
+import { Link } from 'react-router-dom';
 import { ogChain } from '../../config/chain';
 import { formatAddress } from '../../utils/format';
 
@@ -31,10 +32,13 @@ export default function ConnectWallet() {
             Switch to 0G
           </button>
         )}
-        <div className="flex items-center gap-2 px-3 py-2 bg-bg-card rounded-lg border border-border">
+        <Link
+          to={`/profile/${address}`}
+          className="flex items-center gap-2 px-3 py-2 bg-bg-card rounded-lg border border-border hover:border-accent-primary transition-colors"
+        >
           <div className="w-2 h-2 bg-success rounded-full"></div>
           <span className="text-sm font-mono">{formatAddress(address)}</span>
-        </div>
+        </Link>
         <button onClick={() => disconnect()} className="btn-secondary text-sm">
           Disconnect
         </button>
