@@ -1,0 +1,13 @@
+{
+  "name": "0g-proofpass-contracts",
+  "version": "1.0.0",
+  "scripts": {
+    "compile": "forge build",
+    "test": "forge test",
+    "deploy": "forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --verify"
+  },
+  "devDependencies": {
+    "forge-std": "^1.0.0"
+  }
+}
+
