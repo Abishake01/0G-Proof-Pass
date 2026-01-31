@@ -74,13 +74,15 @@ ZEROG_PRIVATE_KEY=0x...
 ## Development Status
 
 - ✅ Phase 1: Project Foundation (Frontend + Backend setup)
-- ⏳ Phase 2: Smart Contracts
-- ⏳ Phase 3: Core Features
-- ⏳ Phase 4: 0G Storage Integration
-- ⏳ Phase 5: AI Analysis (0G Compute)
+- ✅ Phase 2: Smart Contracts (EventRegistry, NFT, RewardToken)
+- ✅ Phase 3: Core Features (Wallet connection, Event pages, Check-in modal)
+- ⏳ Phase 4: 0G Storage Integration (Structure ready, SDK pending)
+- ⏳ Phase 5: AI Analysis (0G Compute via 0g-cc - structure ready)
 - ⏳ Phase 6: Rewards System
 - ⏳ Phase 7: Profile & Dashboard
 - ⏳ Phase 8: UI Polish
+
+See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) for detailed progress.
 
 ## Resources
 
