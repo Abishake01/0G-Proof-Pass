@@ -1,6 +1,9 @@
-import { useState } from 'react';
-import { X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Loader2 } from 'lucide-react';
 import { useAccount } from 'wagmi';
+import { useCheckIn, useSignMessage } from '../../hooks/useContract';
+import { apiService } from '../../services/api';
+import { contractService } from '../../services/contracts';
 
 interface CheckInModalProps {
   eventId: number;
@@ -14,6 +17,44 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [eventData, setEventData] = useState<{ name: string; date: string; location: string } | null>(null);
+  
+  const { checkIn, isPending, isConfirming, isConfirmed, error: checkInError } = useCheckIn();
+  const { signCheckInMessage } = useSignMessage();
+
+  // Fetch event data for NFT metadata
+  useEffect(() => {
+    const fetchEventData = async () => {
+      try {
+        const event = await contractService.getEvent(eventId);
+        if (event) {
+          setEventData({
+            name: event.name,
+            date: new Date(event.startTime * 1000).toLocaleDateString(),
+            location: event.location,
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching event:', err);
+      }
+    };
+    fetchEventData();
+  }, [eventId]);
+
+  // Handle successful check-in
+  useEffect(() => {
+    if (isConfirmed) {
+      setStep('complete');
+    }
+  }, [isConfirmed]);
+
+  // Handle check-in errors
+  useEffect(() => {
+    if (checkInError) {
+      setError(checkInError.message || 'Check-in failed');
+      setLoading(false);
+    }
+  }, [checkInError]);
 
   const handleSendOTP = async () => {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -25,17 +66,7 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
     setError('');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/auth/send-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to send OTP');
-      }
-
+      await apiService.sendOTP(email);
       setStep('otp');
     } catch (err: any) {
       setError(err.message || 'Failed to send OTP');
@@ -54,17 +85,7 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
     setError('');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'}/api/auth/verify-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code: otp }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Invalid OTP');
-      }
-
+      await apiService.verifyOTP(email, otp);
       setStep('sign');
     } catch (err: any) {
       setError(err.message || 'Invalid OTP');
@@ -74,8 +95,29 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
   };
 
   const handleSignAndCheckIn = async () => {
-    // TODO: Implement wallet signature and contract check-in
-    setStep('complete');
+    if (!address || !eventData) {
+      setError('Missing required information');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      // Step 1: Sign message to prove wallet ownership
+      const signature = await signCheckInMessage(eventId, email);
+      console.log('Message signed:', signature);
+
+      // Step 2: Call check-in contract function
+      // Note: The contract should handle NFT minting internally
+      // If not, we'll need to call mintBadge separately
+      await checkIn(eventId);
+      
+      // The useEffect will handle moving to 'complete' step when isConfirmed is true
+    } catch (err: any) {
+      setError(err.message || 'Check-in failed');
+      setLoading(false);
+    }
   };
 
   return (
@@ -155,13 +197,20 @@ export default function CheckInModal({ eventId, onClose }: CheckInModalProps) {
             <p className="text-text-secondary">
               Email verified! Now sign a message with your wallet to complete check-in.
             </p>
-            <button
-              onClick={handleSignAndCheckIn}
-              disabled={loading || !address}
-              className="btn-primary w-full"
-            >
-              {loading ? 'Processing...' : 'Sign & Check In'}
-            </button>
+            {isPending || isConfirming ? (
+              <div className="flex items-center justify-center gap-2 text-accent-primary">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                <span>{isPending ? 'Waiting for transaction...' : 'Confirming transaction...'}</span>
+              </div>
+            ) : (
+              <button
+                onClick={handleSignAndCheckIn}
+                disabled={loading || !address || isPending || isConfirming}
+                className="btn-primary w-full"
+              >
+                Sign & Check In
+              </button>
+            )}
           </div>
         )}
 
